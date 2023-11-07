@@ -96,7 +96,7 @@ const displayChart = async () => {
     wickDownColor: 'black', // Couleur de la mèche des bougies rouges
     borderDownWidth: 1, // Largeur de la bordure des bougies rouges
     drawBorder: true, // Activer la bordure
-    upColor: 'yellow',
+    upColor: 'blue',
     borderUpColor: 'blue', // Couleur de la bordure des bougies vertes
     wickUpColor: 'blue', // Couleur de la mèche des bougies vertes
     borderUpWidth: 1, // Largeur de la bordure des bougies vertes
