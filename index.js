@@ -98,7 +98,7 @@ const displayChart = async () => {
     drawBorder: true, // Activer la bordure
     upColor: 'blue',
     borderUpColor: 'blue', // Couleur de la bordure des bougies vertes
-    wickUpColor: 'blue', // Couleur de la mèche des bougies vertes
+    wickUpColor: 'yellow', // Couleur de la mèche des bougies vertes
     borderUpWidth: 1, // Largeur de la bordure des bougies vertes
     showPriceLine: false, // Désactiver la ligne de prix à côté des bougies
   });
