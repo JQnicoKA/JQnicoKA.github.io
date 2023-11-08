@@ -1,6 +1,6 @@
 // Pour récupérer les bougies M1
 const getData = async () => {
-  const res = await fetch('datamt5m1.csv');
+  const res = await fetch('mydatafullbiennCUT.csv');
   if (!res.ok) {
     console.error('Error loading M1.csv');
     return;
@@ -30,7 +30,7 @@ getData().then((data) => {
 
 // Pour récupérer la liste des positions
 const getPosition = async () => {
-  const res = await fetch('positionsMT5_2_2.csv');
+  const res = await fetch('positions_2_2CUT.csv');
   if (!res.ok) {
     console.error('Error loading positions.csv');
     return;
