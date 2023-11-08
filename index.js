@@ -1,6 +1,6 @@
 // Pour récupérer les bougies M1
 const getData = async () => {
-  const res = await fetch('mydatafullbiennCUT.csv');
+  const res = await fetch('mydatamt5.csv');
   if (!res.ok) {
     console.error('Error loading M1.csv');
     return;
@@ -30,7 +30,7 @@ getData().then((data) => {
 
 // Pour récupérer la liste des positions
 const getPosition = async () => {
-  const res = await fetch('positions_2_2CUT.csv');
+  const res = await fetch('mypositionsmt5.csv');
   if (!res.ok) {
     console.error('Error loading positions.csv');
     return;
@@ -98,7 +98,7 @@ const displayChart = async () => {
     drawBorder: true, // Activer la bordure
     upColor: 'blue',
     borderUpColor: 'blue', // Couleur de la bordure des bougies vertes
-    wickUpColor: 'yellow', // Couleur de la mèche des bougies vertes
+    wickUpColor: 'blue', // Couleur de la mèche des bougies vertes
     borderUpWidth: 1, // Largeur de la bordure des bougies vertes
     showPriceLine: false, // Désactiver la ligne de prix à côté des bougies
   });
