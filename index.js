@@ -1,6 +1,6 @@
 // Pour récupérer les bougies M1
 const getData = async () => {
-  const res = await fetch('mydatamt5.csv');
+  const res = await fetch('mydatamt5_2.csv');
   if (!res.ok) {
     console.error('Error loading M1.csv');
     return;
@@ -30,7 +30,7 @@ getData().then((data) => {
 
 // Pour récupérer la liste des positions
 const getPosition = async () => {
-  const res = await fetch('mypositionsmt5.csv');
+  const res = await fetch('mypositionsmt5newrange2.csv');
   if (!res.ok) {
     console.error('Error loading positions.csv');
     return;
@@ -54,6 +54,58 @@ const getPosition = async () => {
 }
 
 getPosition().then((data) => {
+  console.log(data);
+});
+
+// Pour récupérer la liste des QMs Bear
+const getQMsBear = async () => {
+  const res = await fetch('qmsbear.csv');
+  if (!res.ok) {
+    console.error('Error loading positions.csv');
+    return;
+  }
+
+  const resp = await res.text();
+  // Diviser le CSV en lignes
+  const lines = resp.split('\n');
+  // Initialiser un tableau pour stocker les éléments de chaque ligne
+  const qms = [];
+  
+  // Parcourir chaque ligne et extraire les éléments
+  for (const line of lines) {
+    qms.push(line); // Ajoutez les 8 premiers éléments
+  }
+  
+  return qms;
+}
+
+getQMsBear().then((data) => {
+  console.log(data);
+});
+
+// Pour récupérer la liste des QMs Bull
+const getQMsBull = async () => {
+  const res = await fetch('qmsbull.csv');
+  if (!res.ok) {
+    console.error('Error loading positions.csv');
+    return;
+  }
+
+  const resp = await res.text();
+  // Diviser le CSV en lignes
+  const lines = resp.split('\n');
+  // Initialiser un tableau pour stocker les éléments de chaque ligne
+  const qms = [];
+  
+  // Parcourir chaque ligne et extraire les éléments
+  for (const line of lines) {
+    qms.push(line); // Ajoutez les 8 premiers éléments
+  }
+  
+  return qms;
+}
+
+getQMsBull().then((data) => {
   console.log(data);
 });
 
@@ -88,6 +140,10 @@ const displayChart = async () => {
 
   // Get the data of the positions
   const tabPositions = await getPosition();
+
+  // Get the data of QMs
+  const tabQMsBear = await getQMsBear()
+  const tabQMsBull = await getQMsBull()
   
   // Personnalisation des bougies
   candleseries.applyOptions({
@@ -106,10 +162,47 @@ const displayChart = async () => {
   // Initialisation d'un tableau pour stocker les markers
   const markers = [];
 
+  for (const qm of tabQMsBear) {
+    date = new Date(qm);
+    date.setHours(date.getHours() +2); // Ajoute 2 heures à la date car décalage chelouuuu
+    const dateStamp = date.getTime() / 1000;
+
+    const targetCandle = klinedata.find(candle => candle.time === dateStamp);
+    if (targetCandle) {
+      // Ajout d'un marker sur la bougie cible
+      markers.push({
+        time: targetCandle.time,
+        position: 'aboveBar',
+        shape: 'arrowDown',
+        color: 'blue', // Couleur du marker
+        size: 3, // Taille du marker
+      });
+    }
+  }
+
+  for (const qm of tabQMsBull) {
+    date = new Date(qm);
+    date.setHours(date.getHours() +2); // Ajoute 2 heures à la date car décalage chelouuuu
+    const dateStamp = date.getTime() / 1000;
+
+    const targetCandle = klinedata.find(candle => candle.time === dateStamp);
+    if (targetCandle) {
+      // Ajout d'un marker sur la bougie cible
+      markers.push({
+        time: targetCandle.time,
+        position: 'belowBar',
+        shape: 'arrowUp',
+        color: 'blue', // Couleur du marker
+        size: 3, // Taille du marker
+      });
+    }
+  }
+
   // Dessin de chaque position
+  
   for (const position of tabPositions) {
     date = new Date(position[0]);
-    date.setHours(date.getHours() + 2); // Ajoute 2 heures à la date
+    date.setHours(date.getHours() +2); // Ajoute 2 heures à la date car décalage chelouuuu
     const dateStamp = date.getTime() / 1000;
     ordre = position[1]*100
     nature = position[2]
@@ -210,6 +303,7 @@ const displayChart = async () => {
 
     }
   }
+
   
   // Ajout de tous les marqueurs à candleseries
   candleseries.setMarkers(markers);
@@ -223,4 +317,6 @@ displayChart();
 // (base) nico@nico-MS-7C87:~/Documents/Project-Trading/chart_web/pageweb$ python -m http.server
 // Puis localhost:8000 sur firefox
 
-//TODO: Mettre les positions !
+// Nouvelle façon :
+// C:\Users\Nico\Documents\Graphique Projet\JQnicoKA.github.io> http-server
+// Puis localhost:8000 sur edge
